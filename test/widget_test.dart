@@ -1,30 +1,60 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:mini_katalog/controllers/cart_controller.dart';
 import 'package:mini_katalog/main.dart';
+import 'package:mini_katalog/models/product.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  final json = <String, dynamic>{
+    'id': 6,
+    'name': 'MacBook Pro 16"',
+    'tagline': 'Mind-blowing. Head-turning.',
+    'description': 'Test description',
+    'price': r'$2,499',
+    'currency': 'USD',
+    'image': 'https://wantapi.com/assets/images/macbook.png',
+    'specs': {'chip': 'M3 Max', 'display': 'Liquid Retina XDR'},
+  };
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  test('Product.fromJson / toJson round trip', () {
+    final product = Product.fromJson(json);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    expect(product.name, 'MacBook Pro 16"');
+    expect(product.priceValue, 2499);
+    expect(product.specs['chip'], 'M3 Max');
+    expect(product.toJson(), json);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  test('formatPrice uses the data format', () {
+    expect(formatPrice(2598), r'$2,598');
+    expect(formatPrice(99), r'$99');
+  });
+
+  test('CartController add / remove / total', () {
+    final cart = CartController();
+    final product = Product.fromJson(json);
+
+    cart.add(product);
+    cart.add(product);
+    expect(cart.itemCount, 2);
+    expect(cart.totalPrice, 4998);
+
+    cart.remove(product);
+    expect(cart.isEmpty, isTrue);
+  });
+
+  testWidgets('Home screen shows products from JSON', (tester) async {
+    await tester.pumpWidget(MiniKatalogApp(cart: CartController()));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Keşfet'), findsOneWidget);
+    expect(find.text('iPhone 15 Pro'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField), 'airpods');
+    await tester.pumpAndSettle();
+
+    expect(find.text('iPhone 15 Pro'), findsNothing);
+    expect(find.text('AirPods Max'), findsOneWidget);
   });
 }
