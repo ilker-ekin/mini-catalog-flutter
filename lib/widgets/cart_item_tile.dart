@@ -20,7 +20,7 @@ class CartItemTile extends StatelessWidget {
         leading: SizedBox(
           width: 56,
           height: 56,
-          child: ProductImage(url: product.image),
+          child: ProductImage(url: product.image, radius: 8),
         ),
         title: Text(product.name, maxLines: 1, overflow: TextOverflow.ellipsis),
         subtitle: Text(

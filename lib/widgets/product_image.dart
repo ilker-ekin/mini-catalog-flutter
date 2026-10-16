@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 
-/// Product image from the network, with a local placeholder on error.
+/// Rounded product image from the network, with a local placeholder on error.
 class ProductImage extends StatelessWidget {
   final String url;
-  final BoxFit fit;
+  final double radius;
 
-  const ProductImage({super.key, required this.url, this.fit = BoxFit.contain});
+  const ProductImage({super.key, required this.url, this.radius = 12});
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      url,
-      fit: fit,
-      errorBuilder: (context, error, stackTrace) =>
-          Image.asset('assets/images/placeholder.png', fit: BoxFit.cover),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(radius),
+      child: Image.network(
+        url,
+        width: double.infinity,
+        height: double.infinity,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) =>
+            Image.asset('assets/images/placeholder.png', fit: BoxFit.cover),
+      ),
     );
   }
 }

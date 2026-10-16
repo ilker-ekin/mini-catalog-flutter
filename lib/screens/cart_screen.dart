@@ -87,8 +87,12 @@ class _CheckoutBar extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Toplam ($itemCount ürün)',
-                    style: theme.textTheme.titleMedium),
+                Expanded(
+                  child: Text(
+                    'Toplam ($itemCount ürün)',
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ),
                 Text(
                   total,
                   style: theme.textTheme.headlineSmall?.copyWith(

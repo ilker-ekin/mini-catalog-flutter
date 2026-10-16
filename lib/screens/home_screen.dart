@@ -11,8 +11,8 @@ import '../widgets/promo_banner.dart';
 enum PriceFilter {
   all('Tümü'),
   under500('\$500 altı'),
-  from500to1000('\$500 - \$1.000'),
-  over1000('\$1.000 üstü');
+  from500to1000('\$500 - \$1,000'),
+  over1000('\$1,000 üstü');
 
   final String label;
   const PriceFilter(this.label);
@@ -70,12 +70,14 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Text(
               'Keşfet',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Text('En yeni ürünleri bul', style: theme.textTheme.bodyMedium),
           ],
         ),
+        centerTitle: false,
         toolbarHeight: 72,
         actions: [CartButton(cart: widget.cart)],
       ),

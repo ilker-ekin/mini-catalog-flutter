@@ -22,6 +22,7 @@ class CartButton extends StatelessWidget {
             child: const Icon(Icons.shopping_cart_outlined),
           ),
           onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
             Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => CartScreen(cart: cart)),

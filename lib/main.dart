@@ -19,10 +19,7 @@ class MiniKatalogApp extends StatelessWidget {
     return MaterialApp(
       title: 'Mini Katalog',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.indigo,
-      ),
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.indigo),
       initialRoute: '/',
       onGenerateRoute: (settings) {
         switch (settings.name) {
